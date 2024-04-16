@@ -24,10 +24,10 @@ class Person(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=200)
     overview = models.TextField()
-    release_date = models.DateTimeField()
-    running_time = models.IntegerField()
+    release_date = models.DateTimeField(blank=True)
+    running_time = models.IntegerField(blank=True)
     budget = models.IntegerField(blank=True)
-    tmdb_id = models.IntegerField(blank=True, unique=True)
+    tmdb_id = models.IntegerField(blank=True, unique=True, null=True)
     revenue = models.IntegerField(blank=True)
     poster_path = models.URLField(blank=True)
     genres = models.ManyToManyField(Genre)
