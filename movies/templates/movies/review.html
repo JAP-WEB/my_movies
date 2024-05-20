@@ -1,0 +1,32 @@
+{% extends "movies/base.html" %}
+
+{% block article %}
+
+<div class="mt-6">
+    <form method="post">
+  {% csrf_token %}
+  <div class="text-center font-bold text-3xl my-4">
+    <h2>{{ movie_name }}</h2>
+  </div>
+  <div>
+    {{ form.rating.label_tag }}
+    <br>
+    {{ form.rating }}
+  </div>
+  <br>
+  <br>
+  <div>
+    {{ form.review.label_tag }}
+    <br>
+    {{ form.review }}
+  </div>
+  <div class="mt-6 flex items-center justify-center gap-x-6">
+    <a href="{% url 'movie_detail' movie_id=movie_id %}" style="display: inline-block; padding: 10px 20px; background-color: #FF0606; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Regresar</a>
+    <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Enviar</button>
+  </div> 
+  <br>
+  <br>
+</form>
+</div> 
+
+{% endblock %}

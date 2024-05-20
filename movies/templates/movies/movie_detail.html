@@ -1,0 +1,76 @@
+{% extends "movies/base.html" %} 
+
+{% block article %}
+<div class="flex bg-slate-200 my-4">
+    <img class="w-1/3 mr-3" src="https://media.themoviedb.org/t/p/w300_and_h450_bestv2/{{movie.poster_path}}" alt="the imitation game poster" style="height: 450px;">
+    <header class="w-2/3 pl-4">
+    <h1 class="movie-title text-4xl font-bold"> <strong>{{movie.title}} </strong></h1>
+    <div class="movie-info">
+            <p> - {{ movie.release_date|date:"Y" }} -</p>
+            <ul class="movie-genre">
+                {% for genre in movie.genres.all %}
+                    <li>{{ genre.name }}{% if not forloop.last %} | {% endif %}</li>
+                {% endfor %}
+            </ul>
+            <p>- {{movie.running_time}} minutes</p>
+    </div>   
+            
+    <h1>Overview</h1>
+    <p>
+        {{ movie.overview }} 
+    </p>
+    
+    <h2>Average Rating: <strong>{{ average_rating|default:"No reviews yet"|floatformat:2 }}</strong></h2>
+
+    <details>
+        <summary>Production Details</summary>
+        <p> Budget: {{ movie.budget }} </p>
+        <p> Revenue: {{ movie.revenue }} </p>
+    </details>
+    
+    <details>
+    <summary>Actors</summary>
+    {% if actors %}
+        <ul>
+        {% for actor in actors %}
+            <li>
+                <p>{{ actor.person }} ({{ actor.job }})</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No actors are available.</p>
+    {% endif %}
+    </details>
+    </header>
+    
+</div>
+
+<div>
+    {% if review_list %}
+        <ul>
+        {% for review in review_list%}
+            <li>
+                <div class="flex h-auto bg-slate-200 my-4 p-4 w-[20rem]">
+                    <p>Usuario: {{ review.user }} <br> Calificación: {{ review.rating }} <br> Reseña: {{ review.review }} </p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reviews are available.</p>
+    {% endif %}
+</div>
+
+<div style="text-align: right;">
+    <a href="{% url 'index' %}" style="display: inline-block; padding: 10px 20px; background-color: #FF0606; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Regresar</a>
+    <a href="review" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Escribe tu reseña</a>
+</div>
+
+{% if message %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endif %}
+
+{% endblock %}

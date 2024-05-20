@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movies</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/static/movies/css/output.css" rel="stylesheet">
+        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    </head>
+    <body class="font-sans max-w-4xl mx-auto">
+    <header class="h-25 w-full mx-auto  mt-5 border-b-2 border-sky-500 justify-between">
+        <h1 class="font-medium text-3xl  text-center" >My Movies</h1> 
+        
+        {% if user.is_authenticated %}
+        <div style="text-align: right;">
+            <p>Hola, {{user.username}}</p>
+        </div>
+        {% else %}
+        <div style="text-align: right;">
+            <a href="http://52.55.186.163:8000/admin/login/" style="display: inline-block; padding: 10px 20px; background-color: #000000; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; text-align:right;">Login</a>
+        </div>
+        {% endif %}
+        
+        <br>
+    </header>
+    
+    <article>
+        {% block article %}
+        
+        {% endblock %}
+    </article>
+
+    <footer>
+        <br>
+        <br>
+        <p>Equipo: JAP</p>
+        <p><a href="github.com\miusuario\elrepo"> GitHub Repository</a></p>
+    </footer>
+
+    </body>
+</html>
