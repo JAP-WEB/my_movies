@@ -16,7 +16,3 @@ _Roles_
 * Diseñador y programador de software - Jesús Elías
 * Diseñador y programador de software - Denisse Guipzot
 * Diseñador y programador de software - Paulina Jiménez
-
-_Issues_
-Título: Mal redireccionamiento en botón regresar
-Descripción: Al momento de ingresar un usuario no válido, si se da click al botón regresar te regresa a la página anterior en donde se muestra el usario erroneo.
