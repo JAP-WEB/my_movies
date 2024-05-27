@@ -18,5 +18,5 @@ _Roles_
 * Diseñador y programador de software - Paulina Jiménez
 
 _Issues_
-Título: Falta de un boton de conexion con el inicio de sesion a index (botón regresar)
-Descripción: Al momento de iniciar sesión no hay un botón que redireccione la página principal con la página del index, el cual contiene las películas del usuario en cuestión, ya que la página web si se desea cambiar de usuario se debe hacer de manera manual, por lo que es impráctico al momento de querer realizar las reseñas y se tiene que modificar para una interfaz más amigable con el usuario.
+Título: Mal redireccionamiento en botón regresar
+Descripción: Al momento de ingresar un usuario no válido, si se da click al botón regresar te regresa a la página anterior en donde se muestra el usario erroneo.
