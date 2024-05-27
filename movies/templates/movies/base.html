@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Movies</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="/static/movies/css/output.css" rel="stylesheet">
-        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-    </head>
-    <body class="font-sans max-w-4xl mx-auto">
-    <header class="h-25 w-full mx-auto  mt-5 border-b-2 border-sky-500 justify-between">
-        <h1 class="font-medium text-3xl  text-center" >My Movies</h1> 
-        
-        {% if user.is_authenticated %}
-        <div style="text-align: right;">
-            <p>Hola, {{user.username}}</p>
-        </div>
-        {% else %}
-        <div style="text-align: right;">
-            <a href="http://52.55.186.163:8000/admin/login/" style="display: inline-block; padding: 10px 20px; background-color: #000000; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; text-align:right;">Login</a>
+<head>
+    <title>Movies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/movies/css/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="bg-black font-poppins max-w-4xl mx-auto text-white">
+    <header class="h-24 md:h-25 w-full mx-auto mt-5 border-b-2 border-blue-700 md:items-center md:justify-between">
+        <h1 class="font-bold text-3xl text-center md:text-center mx-auto mb-4 md:mb-0">My Movies</h1>
+        {% if not login_page %}
+        <div class="text-center md:text-right md:mt-0">
+            {% if user.is_authenticated %}
+            <p class="inline-block md:mr-4 "><strong>Hi, {{ user.username }}</strong></p>
+            <a href="{% url 'logout' %}" class="inline-block px-4 py-2 bg-red-600 text-white no-underline rounded cursor-pointer">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="inline-block px-4 py-2 bg-blue-700 text-white no-underline rounded cursor-pointer">Login</a>
+            {% endif %}
         </div>
         {% endif %}
-        
-        <br>
     </header>
-    
-    <article>
+
+    <article class="mt-5">
         {% block article %}
-        
+
         {% endblock %}
     </article>
 
-    <footer>
+    <footer class="mt-5">
         <br>
         <br>
-        <p>Equipo: JAP</p>
-        <p><a href="https://github.com/JAP-WEB/my_movies"> GitHub Repository</a></p>
+        <p class="text-center md:text-left">Equipo: JAP</p>
+        <p class="text-center md:text-left"><a href="https://github.com/JAP-WEB/MyMovies">GitHub Repository</a></p>
     </footer>
-
-    </body>
+</body>
 </html>

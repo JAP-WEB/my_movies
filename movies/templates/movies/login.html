@@ -1,0 +1,143 @@
+{% extends "movies/base.html" %}
+
+{% block article %}
+
+<div class="flex justify-left">
+    <button id="returnButton" class="inline-block px-4 py-2 bg-red-600 text-white rounded-md text-center hover:bg-red-700">Return</button>
+</div>
+
+<script>
+    document.getElementById('returnButton').addEventListener('click', function() {
+        history.back();
+    });
+</script>
+
+<div class="mt-5 flex justify-center">
+    <div class="max-w-xl w-full bg-blue-700 text-white p-6 rounded-lg shadow-md">
+        <h1 class="text-center text-2xl font-poppins mb-5">Login</h1>
+        <h2 class="text-center text-5xl font-poppins my-5">🔒</h2>
+
+        {% if messages %}
+        <div class="messages" id="messageContainer" style="display: none;">
+            {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        <div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Invalid user
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        The username or password you entered is incorrect. Please try again.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button id="closeButton" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const messageContainer = document.getElementById('messageContainer');
+                if (messageContainer && messageContainer.innerHTML.trim() !== "") {
+                    const modal = document.getElementById('modal');
+                    modal.classList.remove('hidden');
+                    const usernameField = document.getElementById('id_username');
+                    const passwordField = document.getElementById('id_password');
+                    usernameField.value = '';
+                    passwordField.value = '';
+                    
+                    // Cierra el modal después de 5 segundos (5000 milisegundos)
+                    setTimeout(function() {
+                        modal.classList.add('hidden');
+                    }, 5000);
+                }
+            });
+
+            // Agrega el evento de clic al botón de cerrar
+            document.getElementById('closeButton').addEventListener('click', function() {
+                document.getElementById('modal').classList.add('hidden');
+            });
+            
+            // Agrega el evento de clic al botón de ojito
+            document.getElementById('toggle-password').addEventListener('click', function() {
+                const passwordField = document.getElementById('id_password');
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+            });
+            
+        </script>
+        {% endif %}
+
+        <form method="post" class="mb-8">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="id_username" class="block text-white text-sm font-bold mb-2">Username</label>
+                <div class="relative text-black">
+                    {{ form.username }}
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label for="id_password" class="block text-white text-sm font-bold mb-2">Password</label>
+                <div class="relative text-black">
+                    {{ form.password }}
+                    <button type="button" class="absolute inset-y-0 right-0 px-3 py-2 text-white" id="toggle-password">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM9 12s1.5 2 3 2 3-2 3-2m-9 3.5a9.31 9.31 0 0012 0m-12 0a9.31 9.31 0 0012 0m-12-9a9.31 9.31 0 0012 0m-12 0a9.31 9.31 0 0012 0" />
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="text-center"> <!-- Contenedor para centrar el botón -->
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 focus:outline-none focus:shadow-outline">
+                    Sign In
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{% url 'register' %}">
+                Create an Account
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+     const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password-field');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+    });
+</script>
+
+
+            
+{% endblock %}

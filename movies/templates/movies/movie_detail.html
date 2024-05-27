@@ -1,76 +1,90 @@
-{% extends "movies/base.html" %} 
+{% extends "movies/base.html" %}
 
 {% block article %}
-<div class="flex bg-slate-200 my-4">
-    <img class="w-1/3 mr-3" src="https://media.themoviedb.org/t/p/w300_and_h450_bestv2/{{movie.poster_path}}" alt="the imitation game poster" style="height: 450px;">
-    <header class="w-2/3 pl-4">
-    <h1 class="movie-title text-4xl font-bold"> <strong>{{movie.title}} </strong></h1>
-    <div class="movie-info">
-            <p> - {{ movie.release_date|date:"Y" }} -</p>
-            <ul class="movie-genre">
-                {% for genre in movie.genres.all %}
-                    <li>{{ genre.name }}{% if not forloop.last %} | {% endif %}</li>
-                {% endfor %}
-            </ul>
-            <p>- {{movie.running_time}} minutes</p>
-    </div>   
-            
-    <h1>Overview</h1>
-    <p>
-        {{ movie.overview }} 
-    </p>
-    
-    <h2>Average Rating: <strong>{{ average_rating|default:"No reviews yet"|floatformat:2 }}</strong></h2>
-
-    <details>
-        <summary>Production Details</summary>
-        <p> Budget: {{ movie.budget }} </p>
-        <p> Revenue: {{ movie.revenue }} </p>
-    </details>
-    
-    <details>
-    <summary>Actors</summary>
-    {% if actors %}
-        <ul>
-        {% for actor in actors %}
-            <li>
-                <p>{{ actor.person }} ({{ actor.job }})</p>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No actors are available.</p>
-    {% endif %}
-    </details>
-    </header>
-    
+<div class="flex justify-between mb-4">
+    <a href="{% url 'index' %}" class="inline-block px-4 py-2 bg-red-600 text-white rounded-md text-center hover:bg-red-700">Return</a>
+    <a href="review" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md text-center hover:bg-blue-700">Write your review</a>
 </div>
 
+<div class="flex flex-col md:flex-row bg-blue-700 my-4 justify-center items-center">
+    <div class="w-full md:w-1/3 mx-2 my-2 overflow-hidden"> <!-- Asegúrate de que el contenedor tenga un ancho del 100% y ningún margen adicional -->
+        <img class="mx-auto w-full h-auto border-4 border-black p-1" src="https://media.themoviedb.org/t/p/w300_and_h450_bestv2/{{movie.poster_path}}">
+    </div>
+    <header class="w-full md:w-2/3 px-4 my-4">
+        <h1 class="movie-title text-2xl md:text-4xl font-bold text-center"><strong>{{movie.title}}</strong></h1>
+        <div class="movie-info text-center">
+            <p>- {{ movie.release_date|date:"Y" }} -</p>
+            <ul class="movie-genre">
+                {% for genre in movie.genres.all %}
+                    <li class="inline">{{ genre.name }}{% if not forloop.last %} | {% endif %}</li>
+                {% endfor %}
+            </ul>
+            <p>⏰ {{movie.running_time}} minutes</p>
+        </div>   
+        <h1>🎥 Overview</h1>
+        <p class="text-justify">
+            {{ movie.overview }} 
+        </p>
+        <h2>Average Rating: ⭐ <strong>{{ average_rating|default:"No reviews yet"|floatformat:2 }}</strong></h2>
+        <details>
+            <summary class="font-bold">Production Details</summary>
+            <p> 💸 Budget: ${{ movie.budget }} </p>
+            <p> 💰 Revenue: ${{ movie.revenue }} </p>
+        </details>
+        <details>
+            <summary class="font-bold">Actors</summary>
+            {% if actors %}
+                <ul>
+                {% for actor in actors %}
+                    <li>
+                        <p>{{ actor.person }} ({{ actor.job }})</p>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No actors are available.</p>
+            {% endif %}
+        </details>
+    </header>
+</div>
+
+
 <div>
+    <h1 class="text-2xl font-bold my-2 text-center">💭 Reviews</h1>
     {% if review_list %}
-        <ul>
-        {% for review in review_list%}
-            <li>
-                <div class="flex h-auto bg-slate-200 my-4 p-4 w-[20rem]">
-                    <p>Usuario: {{ review.user }} <br> Calificación: {{ review.rating }} <br> Reseña: {{ review.review }} </p>
-                </div>
-            </li>
+        <div id="review_list" class="flex flex-wrap justify-center gap-4">
+        {% for review in review_list %}
+            <div class="flex flex-col bg-blue-700 my-4 p-4 w-full sm:w-[calc(33.333%-1rem)] rounded-lg">
+                <p class="text-justify"><strong>{{ review.user }} </strong><br><strong> ⭐ {{ review.rating }} </strong> <br>Reseña: {{ review.review }}</p>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>No reviews are available.</p>
     {% endif %}
 </div>
 
-<div style="text-align: right;">
-    <a href="{% url 'index' %}" style="display: inline-block; padding: 10px 20px; background-color: #FF0606; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Regresar</a>
-    <a href="review" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Escribe tu reseña</a>
+<div>
+    <h1 class="text-2xl font-bold my-4 text-center">🎬 Recommendations</h1>
+    {% if recommendations %}
+        <div id="movie_list" class="flex flex-wrap justify-center items-center">
+        {% for movie in recommendations %}
+            <div class="flex-none w-full sm:w-48 sm:h-87 m-2 my-4 mx-auto border-4 border-blue-700 border-double rounded-lg p-2">
+                <a href="/movies/{{ movie.id }}/">
+                    <img class="mx-auto w-auto h-auto rounded-lg" src="https://media.themoviedb.org/t/p/w300_and_h450_bestv2/{{movie.poster_path}}" alt="{{movie.title}} poster">
+                </a>
+                <div class="text-center">
+                    <h1 class="text-nowrap text-ellipsis overflow-hidden font-bold mt-2">
+                        <a class="text-blue-700" href="/movies/{{ movie.id }}/">{{ movie.title }}</a>
+                    </h1>
+                    <p class="text-blue-700">⭐ {{ movie.average_rating|default:"No reviews yet"|floatformat:1 }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No recommendations are available.</p>
+    {% endif %}
 </div>
-
-{% if message %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endif %}
 
 {% endblock %}

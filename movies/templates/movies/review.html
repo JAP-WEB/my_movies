@@ -1,32 +1,36 @@
 {% extends "movies/base.html" %}
 
 {% block article %}
-
-<div class="mt-6">
-    <form method="post">
-  {% csrf_token %}
-  <div class="text-center font-bold text-3xl my-4">
-    <h2>{{ movie_name }}</h2>
-  </div>
-  <div>
-    {{ form.rating.label_tag }}
-    <br>
-    {{ form.rating }}
-  </div>
-  <br>
-  <br>
-  <div>
-    {{ form.review.label_tag }}
-    <br>
-    {{ form.review }}
-  </div>
-  <div class="mt-6 flex items-center justify-center gap-x-6">
-    <a href="{% url 'movie_detail' movie_id=movie_id %}" style="display: inline-block; padding: 10px 20px; background-color: #FF0606; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Regresar</a>
-    <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">Enviar</button>
-  </div> 
-  <br>
-  <br>
-</form>
-</div> 
-
+<style>
+    .fixed-size {
+        width: 100px; /* Tamaño fijo para el select de calificación */
+    }
+    .label-white {
+        color: white; /* Color blanco para las etiquetas */
+    }
+</style>
+<div class="mt-6 container mx-auto px-4">
+    <form method="post" class="w-full">
+        {% csrf_token %}
+        <div class="text-center font-bold text-3xl my-4">
+            <h2 class="text-xl sm:text-2xl md:text-3xl">{{ movie_name }}</h2>
+        </div>
+        <div class="mb-4">
+            <label for="id_rating" class="block text-sm font-medium label-white">{{ form.rating.label }}</label>
+            <div class="my-2 text-black">
+                {{ form.rating }}
+            </div>
+        </div>
+        <div class="my-8">
+            <label for="id_review" class="block text-sm font-medium label-white">{{ form.review.label }}</label>
+            <div class="my-2 text-black">
+                {{ form.review }}
+            </div>
+        </div>
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-between">
+            <a href="{% url 'movie_detail' movie_id=movie_id %}" class="w-full sm:w-auto mb-2 sm:mb-0 sm:mr-2 px-4 py-2 bg-red-600 text-white rounded-md text-center hover:bg-red-700">Return</a>
+            <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md text-center hover:bg-blue-700">Send</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

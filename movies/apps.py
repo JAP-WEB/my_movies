@@ -1,3 +1,4 @@
+#permite que Django pueda identificar y manejar correctamente la aplicación dentro del proyecto
 from django.apps import AppConfig
 
 

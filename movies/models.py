@@ -1,3 +1,4 @@
+#modelos definen las tablas de base de datos para una aplicación de gestión de películas en Django. 
 from django.db import models #Importa los modelos de django 
 from django.contrib.auth.models import User #Autentificar el usuario en Django
 from django.core.validators import MaxValueValidator, MinValueValidator #Validar que los campos estan en el rango predefinido
@@ -25,6 +26,10 @@ class Person(models.Model):
         return self.name
 
 #Modelo (Tabla) para película y sus atributos
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
+
 class Movie(models.Model):
     title = models.CharField(max_length=200)
     overview = models.TextField()
@@ -37,8 +42,17 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     credits = models.ManyToManyField(Person, through="MovieCredit")
 
+    def average_rating(self):
+        reviews = MovieReview.objects.filter(movie=self)
+        if reviews:
+            total_rating = sum(review.rating for review in reviews)
+            return total_rating / len(reviews)
+        else:
+            return 0
+
     def __str__(self):
         return self.title + ' ' + str(self.release_date.year)
+
 
 #Modelo (Tabla) para los creditos de la película y sus atributos
 class MovieCredit(models.Model):
