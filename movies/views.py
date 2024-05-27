@@ -136,23 +136,6 @@ def register_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'movies/register.html', {'form': form})
-    
-def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-    else:
-        form = UserCreationForm()
-    return render(request, 'movies/register.html', {'form': form})
-    
-#--------------------------------------------------------------------------
 
 def get_return(request):
     return render(request, 'login.html')
